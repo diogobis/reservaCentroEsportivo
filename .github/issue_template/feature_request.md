@@ -1,19 +1,15 @@
 ---
-name: Feature request
-about: Add a feature for the project
+name: Solicitação de funcionalidade
+about: Adicionar uma funcionalidade ao projeto
 title: "feat:"
 labels: enhancement
 assignees: ""
 ---
 
-## Feature Details
+## Detalhes da funcionalidade
 
-Cover any details here, e.g. feature number and stakeholders
 
-## Expected Functionality
+## Comportamento esperado
 
-What you expect to solve with this feature.
 
 ## Design
-
-Any links to design files that the project might need.
