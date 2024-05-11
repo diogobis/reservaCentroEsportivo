@@ -1,0 +1,60 @@
+<nav *ngIf="user != null" class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarText"
+      aria-controls="navbarText"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <div class="navbar-brand">
+        <img
+          src="../../../assets/unileste_logo.png"
+          height="50"
+          alt="Logo da Unileste"
+        />
+      </div>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/home"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            routerLink="/nova-reserva"
+            >Nova reserva</a
+          >
+        </li>
+      </ul>
+      <div
+        ngbDropdown
+        display="dynamic"
+        placement="bottom-end"
+        class="dropdown"
+      >
+        <button
+          ngbDropdownToggle
+          class="nav-link dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton1"
+          aria-expanded="false"
+        >
+          <fa-icon [icon]="faUser"></fa-icon>
+        </button>
+        <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton1">
+          <li ngbDropdownItem class="d-flex justify-content-stretch">
+            <button (click)="deslogar()" class="btn btn-danger flex-grow-1">Sair</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

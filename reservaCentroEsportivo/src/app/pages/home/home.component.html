@@ -1,0 +1,47 @@
+<div class="container-sm">
+  <div class="card m-2">
+    <div class="card-body">
+      <h2 class="card-title">Minhas reservas</h2>
+      <p *ngIf="minhasReservas.length == 0" class="text-center">Nenhuma reserva encontrada :(</p>
+
+      <div class="row row-cols-2">
+        <div class="col" *ngFor="let reserva of minhasReservas">
+          <div class="card my-2">
+            <div class="card-body">
+              <h2 class="card-title">
+                {{ reserva.formattedDate }} - {{ reserva.horario }}
+              </h2>
+              <h3>{{ reserva.formattedCtEsport }}</h3>
+
+              <div
+                class="card"
+                style="
+                  max-height: 300px !important;
+                  overflow-x: hidden;
+                  overflow-y: auto;
+                "
+              >
+                <div class="card-body">
+                  <table class="table">
+                    <!-- <thead>
+                      <tr>
+                        <th scope="col">Usuário</th>
+                        <th scope="col">RA</th>
+                      </tr>
+                    </thead> -->
+                    <tbody>
+                      <tr *ngFor="let p of reserva.participantes; index as i">
+                        <td>{{ p.usuario }}</td>
+                        <td>{{ p.RA }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
