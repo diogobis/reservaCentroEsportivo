@@ -19,7 +19,7 @@ registerLocaleData(localeEn);
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  public minhasReservas: any;
+  public minhasReservas: any = [];
   public usuarioLogado: any;
   public centrosEsportivos: any;
 
