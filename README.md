@@ -8,9 +8,6 @@
 Sistema WEB para reserva das quadras e campos
 <br/>
 <br/>
-<a href="https://github.com/ShaanCoding/makeread.me/wiki"><strong>Explore the docs »</strong></a>
-<br/>
-<br/>
 <!-- <a href="https://www.makeread.me/">View Demo .</a>   -->
 <a href="https://github.com/ligeirin/reservaCentroEsportivo/issues/new?labels=bug;template=bug_report.md">Reportar bug</a>
 <a href="https://github.com/ligeirin/reservaCentroEsportivo/issues/new?labels=enhancement;&template=feature_request.md">Solicitar funcionalidade</a>
