@@ -9,11 +9,8 @@ Sistema WEB para reserva das quadras e campos
 <br/>
 <br/>
 <!-- <a href="https://www.makeread.me/">View Demo .</a>   -->
-<a href="https://github.com/ligeirin/reservaCentroEsportivo/issues/new?labels=bug;template=bug_report.md">Reportar bug</a>
-<a href="https://github.com/ligeirin/reservaCentroEsportivo/issues/new?labels=enhancement;&template=feature_request.md">Solicitar funcionalidade</a>
-  
-<a href="https://github.com/ShaanCoding/makeread.me/issues/new?labels=bug&amp;template=bug_report.md">Reportar bug</a>
-<a href="https://github.com/ShaanCoding/makeread.me/issues/new?labels=enhancement&amp;&template=feature_request.md">Request Feature</a>
+<a href="https://github.com/ligeirin/reservaCentroEsportivo/issues/new?labels=bug&amp;template=bug_report.md">Reportar bug</a>
+<a href="https://github.com/ligeirin/reservaCentroEsportivo/issues/new?labels=enhancement&amp;&template=feature_request.md">Solicitar funcionalidade</a>
 </p>
 </div>
 
