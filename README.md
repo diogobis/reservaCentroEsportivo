@@ -22,7 +22,7 @@ Sistema WEB para reserva das quadras e campos
 
 ## Sobre o projeto
 
-![Página inical](imagens/home.png)
+![Página inical](./imagens/home.PNG)
 
 Atualmente, a reserva dos centros esportivos para a Unileste MG é feita através de um formulário adquirido no site da universidade, que é preenchido pelo aluno responsável e enviado por email.
 
@@ -30,6 +30,7 @@ Com este sistema, os alunos podem:
 
 - Fazer a reserva de forma online e rápida,
 - Saber a disponibilidade dos centros esportivos de forma instantânea,
+- Adicionar participantes da reserva de forma rápida,
 - Verificar as reservas feitas pelos mesmos.
 
 ### Tecnologias
