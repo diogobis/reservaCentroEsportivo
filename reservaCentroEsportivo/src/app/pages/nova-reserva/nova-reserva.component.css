@@ -1,0 +1,4 @@
+.participantes-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 10fr 4fr 1fr 10fr 4fr;
+}

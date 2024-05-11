@@ -1,0 +1,206 @@
+<div class="container-sm">
+  <div class="card m-2">
+    <div class="card-body">
+      <form action="" class="row g-3">
+        <div class="col-md-6">
+          <label for="espacoInput" class="form-label">Espaço</label>
+          <select
+            class="form-select"
+            name="espaco"
+            id="espacoInput"
+            [(ngModel)]="reservaInfo.centroEsportivo"
+            (change)="checarDisponibilidade()"
+          >
+            <option [value]="null" disabled selected>
+              Selecione uma opção
+            </option>
+            <option [value]="1">Quadra 01</option>
+            <option [value]="2">Quadra 02</option>
+            <option [value]="3">Quarda 03</option>
+            <option [value]="4">Campo 01</option>
+            <option [value]="5">Campo 02</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label for="dataInput" class="form-label">Data</label>
+          <input
+            id="startDate"
+            class="form-control"
+            id="dataInput"
+            name="data"
+            type="date"
+            [(ngModel)]="reservaInfo.dataReserva"
+            (change)="checarDisponibilidade()"
+          />
+        </div>
+
+        <div class="col-md-3">
+          <label for="horarioInput" class="form-label">Horário</label>
+          <select
+            class="form-select"
+            name="horario"
+            id="horarioInput"
+            [disabled]="reservaInfo.dataReserva === null"
+            [(ngModel)]="reservaInfo.horario"
+          >
+            <option [value]="null" disabled selected>
+              Selecione uma opção
+            </option>
+            <option
+              *ngFor="let op of filterHorarioOptions; index as i"
+              [value]="op"
+            >
+              {{ op }}
+            </option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card m-2">
+    <div class="card-body">
+      <form action="" class="row g-3">
+        <div class="col-md-8">
+          <label for="responsavelInput" class="form-label">Responsável</label>
+          <input
+            type="text"
+            class="form-control"
+            name="responsavel"
+            id="responsavelInput"
+            disabled
+            [(ngModel)]="usuarioLogado.nome"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="telefoneInput" class="form-label">Telefone</label>
+          <input
+            type="text"
+            class="form-control"
+            name="telefone"
+            id="telefoneInput"
+            disabled
+            [(ngModel)]="usuarioLogado.telefone"
+          />
+        </div>
+
+        <div class="col-md-12">
+          <label for="cursoInput" class="form-label">Curso</label>
+          <input
+            type="text"
+            class="form-control"
+            name="curso"
+            id="cursoInput"
+            disabled
+            [(ngModel)]="usuarioLogado.curso"
+          />
+        </div>
+
+        <div class="col-md-8">
+          <label for="emailInput" class="form-label">E-mail</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            id="emailInput"
+            disabled
+            [(ngModel)]="usuarioLogado.email"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="registroInput" class="form-label">Registro</label>
+          <input
+            type="text"
+            class="form-control"
+            name="registro"
+            id="registroInput"
+            disabled
+            [(ngModel)]="usuarioLogado.RA"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card m-2">
+    <div class="card-body">
+      <form action="" class="row g-3">
+        <div class="col-md-12">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Nome"
+              aria-describedby="button-addon2"
+              matInput
+              [formControl]="myControl"
+              [matAutocomplete]="auto"
+              (keyup)="filterAutocomplete()"
+            />
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              @for (opcao of filteredOptions | async; track opcao) {
+              <mat-option [value]="opcao.nome">{{ opcao.nome }}</mat-option>
+              }
+            </mat-autocomplete>
+
+            <button
+              class="btn btn-success"
+              type="button"
+              id="button-addon2"
+              (click)="adicionarParticipante()"
+            >
+              Adicionar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="m-2">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">RA</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Usuário</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of participantes; index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ p.RA }}</td>
+            <td>{{ p.nome }}</td>
+            <td>{{ p.usuario }}</td>
+            <td>
+              <button class="btn btn-outline-danger" (click)="removerParticipante(i)">
+                <fa-icon [icon]="faTimes"></fa-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="m-2">
+      <div class="d-flex justify-content-stretch col-md-12">
+        <button
+          class="btn btn-success flex-grow-1"
+          [disabled]="
+            participantes.length < 8 ||
+            reservaInfo.centroEsportivo == null ||
+            reservaInfo.dataReserva == null ||
+            reservaInfo.horario == null
+          "
+          (click)="fazerReserva()"
+        >
+          RESERVAR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
