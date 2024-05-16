@@ -14,11 +14,9 @@
             <option [value]="null" disabled selected>
               Selecione uma opção
             </option>
-            <option [value]="1">Quadra 01</option>
-            <option [value]="2">Quadra 02</option>
-            <option [value]="3">Quarda 03</option>
-            <option [value]="4">Campo 01</option>
-            <option [value]="5">Campo 02</option>
+            <option *ngFor="let ct of centrosEsportivos" [value]="ct.ID">
+              {{ ct.descricao }}
+            </option>
           </select>
         </div>
 
@@ -198,7 +196,7 @@
         <button
           class="btn btn-success flex-grow-1"
           [disabled]="
-            participantes.length < 8 ||
+            participantes.length < ctSelecionado.minimoParticipantes ||
             reservaInfo.centroEsportivo == null ||
             reservaInfo.dataReserva == null ||
             reservaInfo.horarioID == null

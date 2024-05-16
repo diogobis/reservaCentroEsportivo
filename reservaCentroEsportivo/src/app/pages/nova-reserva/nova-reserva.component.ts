@@ -12,11 +12,18 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Router, RouterModule } from '@angular/router';
 import { HorarioService } from '../../services/horario/horario.service';
+import { CentroEsportivoService } from '../../services/centroEsportivo/centro-esportivo.service';
 
 @Component({
   selector: 'app-nova-reserva',
   standalone: true,
-  providers: [ReservaService, UsuarioService, HorarioService, DatePipe],
+  providers: [
+    ReservaService,
+    UsuarioService,
+    HorarioService,
+    DatePipe,
+    CentroEsportivoService,
+  ],
   templateUrl: './nova-reserva.component.html',
   styleUrl: './nova-reserva.component.css',
   imports: [
@@ -49,7 +56,7 @@ export class NovaReservaComponent implements OnInit {
 
   public reservaInfo = {
     centroEsportivo: null,
-    dataReserva: null,
+    dataReserva: this.minDate,
     horarioID: null,
     alunoResponsavel: null,
   };
@@ -145,17 +152,26 @@ export class NovaReservaComponent implements OnInit {
     },
   ];
 
+  public ctSelecionado: any = {
+    minimoParticipantes: 0,
+  };
+  public centrosEsportivos: any = [];
+
   constructor(
     private reservaService: ReservaService,
     private usuarioService: UsuarioService,
     private horarioService: HorarioService,
+    private ctService: CentroEsportivoService,
     public datePipe: DatePipe,
     private router: Router
   ) {
     this.usuarioLogado = JSON.parse(localStorage.getItem('user') as string);
-
     this.usuarioLogado.RA = this.usuarioLogado.RA.toString().padStart(8, '0');
     this.reservaInfo.alunoResponsavel = this.usuarioLogado.RA;
+
+    this.ctService.get().then((result: any) => {
+      this.centrosEsportivos = result;
+    });
   }
 
   ngOnInit() {}
@@ -189,20 +205,21 @@ export class NovaReservaComponent implements OnInit {
     if (!this.reservaInfo.centroEsportivo || !this.reservaInfo.dataReserva)
       return;
 
+    this.ctSelecionado = this.centrosEsportivos.find((ct: any) => {
+      return ct.ID == this.reservaInfo.centroEsportivo;
+    });
+
     this.reservaService
       .checarDisponibilidade(
         this.reservaInfo.dataReserva,
         this.reservaInfo.centroEsportivo
       )
       .then((result: any) => {
-        console.log(result);
         this.filterHorarioOptions = result;
       });
   }
 
   public fazerReserva() {
-    console.log(this.participantes);
-
     this.usuarioService.validarRA(this.participantes).then((result: any) => {
       if (result.valid) {
         this.reservaService.fazerReserva({
