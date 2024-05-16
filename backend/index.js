@@ -4,6 +4,7 @@ const mysql = require("mysql2");
 const AlunosApplication = require("./src/applications/AlunosApplication/AlunosApplication.js");
 const ReservaApplication = require("./src/applications/ReservaApplication/ReservaApplication.js");
 const CentroEsportivoApplication = require("./src/applications/CentroEsportivoApplication/CentroEsportivoApplication.js");
+const HorariosApplication = require("./src/applications/HorariosApplication/HorariosApplication.js");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -38,4 +39,5 @@ function init() {
   let alunosApp = new AlunosApplication(app, db);
   let reservaApp = new ReservaApplication(app, db);
   let centroEsportApp = new CentroEsportivoApplication(app, db);
+  let horariosApp = new HorariosApplication(app, db);
 }
