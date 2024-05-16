@@ -44,16 +44,16 @@
             name="horario"
             id="horarioInput"
             [disabled]="reservaInfo.dataReserva === null"
-            [(ngModel)]="reservaInfo.horario"
+            [(ngModel)]="reservaInfo.horarioID"
           >
             <option [value]="null" disabled selected>
               Selecione uma opção
             </option>
             <option
               *ngFor="let op of filterHorarioOptions; index as i"
-              [value]="op"
+              [value]="op.ID"
             >
-              {{ op }}
+              {{ op.inicio }}h às {{ op.fim }}h
             </option>
           </select>
         </div>
@@ -162,24 +162,29 @@
     </div>
 
     <div class="m-2">
-      <table class="table">
+      <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col"></th>
-            <th scope="col">RA</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Usuário</th>
-            <th scope="col"></th>
+            <th style="width: 5%" scope="col"></th>
+            <th style="width: 20%" scope="col">RA</th>
+            <th style="width: 35%" scope="col">Nome</th>
+            <th style="width: 20%" scope="col">Usuário</th>
+            <th style="width: 10%" scope="col"></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let p of participantes; index as i">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ p.RA }}</td>
-            <td>{{ p.nome }}</td>
-            <td>{{ p.usuario }}</td>
-            <td>
-              <button class="btn btn-outline-danger" (click)="removerParticipante(i)">
+            <th style="width: 5%" scope="row">{{ i + 1 }}</th>
+            <td style="width: 20%">
+              <input type="text" class="form-control" [(ngModel)]="p.RA" />
+            </td>
+            <td style="width: 35%">{{ p.nome }}</td>
+            <td style="width: 20%">{{ p.usuario }}</td>
+            <td style="width: 10%">
+              <button
+                class="btn btn-outline-danger"
+                (click)="removerParticipante(i)"
+              >
                 <fa-icon [icon]="faTimes"></fa-icon>
               </button>
             </td>
@@ -196,7 +201,7 @@
             participantes.length < 8 ||
             reservaInfo.centroEsportivo == null ||
             reservaInfo.dataReserva == null ||
-            reservaInfo.horario == null
+            reservaInfo.horarioID == null
           "
           (click)="fazerReserva()"
         >
