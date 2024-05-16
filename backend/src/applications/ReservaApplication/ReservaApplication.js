@@ -65,6 +65,28 @@ class ReservaApplication extends BaseApplication {
       });
     });
 
+    app.get("/reserva/disponibilidade", (req, res) => {
+      let filter = req.query;
+
+      let diaDaSemana = new Date(filter.dataReserva).getDay();
+      diaDaSemana = diaDaSemana == 5 || diaDaSemana == 6 ? "F" : "S";
+
+      let sql = `
+      SELECT * FROM horarios WHERE horarios.tipo = '${diaDaSemana}' AND horarios.ID NOT IN (
+        SELECT 
+          horarios.ID
+        FROM reserva 
+        INNER JOIN horarios ON reserva.horarioID = horarios.ID 
+        WHERE reserva.dataReserva = '${filter.dataReserva}' AND reserva.centroEsportivo = ${filter.centroEsportivo}
+      );`;
+
+      db.query(sql, (err, results) => {
+        if (err) throw err;
+
+        res.json(results);
+      });
+    });
+
     app.post(`/reserva/registrar`, (req, res) => {
       console.log(req, res);
 
