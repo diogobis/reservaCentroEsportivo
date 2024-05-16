@@ -11,6 +11,20 @@ export class ReservaService extends BaseService {
     super(http, 'reserva');
   }
 
+  public checarDisponibilidade(dataReserva: any, centroEsportivo: any) {
+    return lastValueFrom(
+      this._http.get(this.url + '/disponibilidade', {
+        params: {
+          dataReserva,
+          centroEsportivo,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+    );
+  }
+
   public getInterval(start: string, end: string) {
     return lastValueFrom(
       this._http.get(this.url + '/interval', {

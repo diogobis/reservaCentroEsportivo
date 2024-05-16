@@ -17,6 +17,31 @@ class AlunosApplication extends BaseApplication {
         res.json(results);
       });
     });
+
+    app.get("/alunos/validar", (req, res) => {
+      let participantes = JSON.parse(req.query.participantes);
+      let sql = `SELECT * FROM alunos WHERE RA IN (${participantes
+        .map((p) => p.RA)
+        .join(",")})`;
+
+      console.log(sql);
+
+      db.query(sql, (err, results) => {
+        if (err) throw err;
+        console.log(results);
+
+        let valid = true;
+        for (let p of participantes) {
+          let aluno = results.find((r) => r.RA == p.RA);
+          if (aluno.nome !== p.nome) {
+            valid = false;
+            break;
+          }
+        }
+
+        res.json({ valid: valid });
+      });
+    });
   }
 }
 

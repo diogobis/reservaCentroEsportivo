@@ -11,11 +11,12 @@ import { UsuarioService } from '../../services/usuario/usuario.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Router, RouterModule } from '@angular/router';
+import { HorarioService } from '../../services/horario/horario.service';
 
 @Component({
   selector: 'app-nova-reserva',
   standalone: true,
-  providers: [ReservaService, UsuarioService, DatePipe],
+  providers: [ReservaService, UsuarioService, HorarioService, DatePipe],
   templateUrl: './nova-reserva.component.html',
   styleUrl: './nova-reserva.component.css',
   imports: [
@@ -35,29 +36,119 @@ export class NovaReservaComponent implements OnInit {
   public filteredOptions: Observable<any[]> | undefined;
   public usuarioLogado: any;
 
+  public minDate = new Date(new Date().valueOf() + 2 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .split('T')[0];
+  public maxDate = new Date(new Date().valueOf() + 8 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .split('T')[0];
+
   faTimes = faTimes;
 
-  public allHorarioOptions: string[] = [
-    '08h às 10h',
-    '10h às 12h',
-    '12h às 14h',
-    '14h às 16h',
-    '16h às 18h',
-  ];
-  public filterHorarioOptions: string[] = ['1', '2', '3'];
+  public filterHorarioOptions: any[] = [];
 
   public reservaInfo = {
     centroEsportivo: null,
     dataReserva: null,
-    horario: null,
+    horarioID: null,
     alunoResponsavel: null,
   };
 
-  public participantes: any[] = [];
+  public participantes: any[] = [
+    {
+      RA: '07251091',
+      usuario: 'diogo.freitas',
+      curso: 'Engenharia de Software',
+      nome: 'Diogo Alves Bis de Freitas',
+      email: 'diogo.freitas@a.unileste.edu.br',
+      telefone: '(31) 99982-5752',
+      created: '2024-05-10T14:05:26.000Z',
+      senha: '1234',
+      deleted: null,
+    },
+    {
+      RA: '07251092',
+      usuario: 'fulano.1',
+      curso: 'Engenharia de Software',
+      nome: 'Fulano 1',
+      email: 'diogo.freitas@a.unileste.edu.br',
+      telefone: '(31) 99982-5752',
+      created: '2024-05-10T14:05:33.000Z',
+      senha: '1234',
+      deleted: null,
+    },
+    {
+      RA: '07251093',
+      usuario: 'fulano.2',
+      curso: 'Engenharia de Software',
+      nome: 'Fulano 2',
+      email: 'diogo.freitas@a.unileste.edu.br',
+      telefone: '(31) 99982-5752',
+      created: '2024-05-10T14:05:33.000Z',
+      senha: '1234',
+      deleted: null,
+    },
+    {
+      RA: '07251094',
+      usuario: 'fulano.3',
+      curso: 'Engenharia de Software',
+      nome: 'Fulano 3',
+      email: 'diogo.freitas@a.unileste.edu.br',
+      telefone: '(31) 99982-5752',
+      created: '2024-05-10T14:05:33.000Z',
+      senha: '1234',
+      deleted: null,
+    },
+    {
+      RA: '07251095',
+      usuario: 'fulano.4',
+      curso: 'Engenharia de Software',
+      nome: 'Fulano 4',
+      email: 'diogo.freitas@a.unileste.edu.br',
+      telefone: '(31) 99982-5752',
+      created: '2024-05-10T14:05:33.000Z',
+      senha: '1234',
+      deleted: null,
+    },
+    {
+      RA: '07251096',
+      usuario: 'fulano.5',
+      curso: 'Engenharia de Software',
+      nome: 'Fulano 5',
+      email: 'diogo.freitas@a.unileste.edu.br',
+      telefone: '(31) 99982-5752',
+      created: '2024-05-10T14:05:33.000Z',
+      senha: '1234',
+      deleted: null,
+    },
+    {
+      RA: '07251097',
+      usuario: 'fulano.6',
+      curso: 'Engenharia de Software',
+      nome: 'Fulano 6',
+      email: 'diogo.freitas@a.unileste.edu.br',
+      telefone: '(31) 99982-5752',
+      created: '2024-05-10T14:05:33.000Z',
+      senha: '1234',
+      deleted: null,
+    },
+    {
+      RA: '07251098',
+      usuario: 'fulano.7',
+      curso: 'Engenharia de Software',
+      nome: 'Fulano 7',
+      email: 'diogo.freitas@a.unileste.edu.br',
+      telefone: '(31) 99982-5752',
+      created: '2024-05-10T14:05:33.000Z',
+      senha: '1234',
+      deleted: null,
+    },
+  ];
 
   constructor(
     private reservaService: ReservaService,
     private usuarioService: UsuarioService,
+    private horarioService: HorarioService,
     public datePipe: DatePipe,
     private router: Router
   ) {
@@ -77,24 +168,6 @@ export class NovaReservaComponent implements OnInit {
     );
   }
 
-  public getMonday(d: Date) {
-    let first = d.getDate() - d.getDay();
-    let last = first + 13;
-    let start = new Date(d.setDate(first));
-    start.setHours(0);
-    start.setMinutes(0);
-    start.setSeconds(0);
-    start.setMilliseconds(0);
-
-    let end = new Date(d.setDate(last));
-    end.setHours(23);
-    end.setMinutes(59);
-    end.setSeconds(59);
-    end.setMilliseconds(999);
-
-    return { start, end };
-  }
-
   public adicionarParticipante() {
     if (!this.myControl.value) return;
 
@@ -102,6 +175,7 @@ export class NovaReservaComponent implements OnInit {
       .get({ nome: this.myControl.value })
       .then((result: any) => {
         if (this.participantes.find((p) => p.RA == result[0].RA)) return;
+        result[0].RA = '';
         this.participantes.push(result[0]);
         this.myControl.setValue('');
       });
@@ -116,24 +190,29 @@ export class NovaReservaComponent implements OnInit {
       return;
 
     this.reservaService
-      .get({
-        dataReserva: this.reservaInfo.dataReserva,
-        centroEsportivo: this.reservaInfo.centroEsportivo,
-      })
+      .checarDisponibilidade(
+        this.reservaInfo.dataReserva,
+        this.reservaInfo.centroEsportivo
+      )
       .then((result: any) => {
-        this.filterHorarioOptions = this.allHorarioOptions.filter((hora) => {
-          return !result.find((reserva: any) => {
-            return reserva.horario == hora;
-          });
-        });
+        console.log(result);
+        this.filterHorarioOptions = result;
       });
   }
 
   public fazerReserva() {
-    this.reservaService.fazerReserva({
-      ...this.reservaInfo,
-      participantes: this.participantes,
+    console.log(this.participantes);
+
+    this.usuarioService.validarRA(this.participantes).then((result: any) => {
+      if (result.valid) {
+        this.reservaService.fazerReserva({
+          ...this.reservaInfo,
+          participantes: this.participantes,
+        });
+        this.router.navigate(['home']);
+      } else {
+        alert("RA's inválidos!");
+      }
     });
-    this.router.navigate(['home']);
   }
 }
