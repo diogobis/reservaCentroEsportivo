@@ -30,6 +30,8 @@
             id="dataInput"
             name="data"
             type="date"
+            min="{{ minDate }}"
+            max="{{ maxDate }}"
             [(ngModel)]="reservaInfo.dataReserva"
             (change)="checarDisponibilidade()"
           />

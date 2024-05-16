@@ -35,6 +35,13 @@ export class NovaReservaComponent implements OnInit {
   public filteredOptions: Observable<any[]> | undefined;
   public usuarioLogado: any;
 
+  public minDate = new Date(new Date().valueOf() + 2 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .split('T')[0];
+  public maxDate = new Date(new Date().valueOf() + 8 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .split('T')[0];
+
   faTimes = faTimes;
 
   public allHorarioOptions: string[] = [
@@ -44,7 +51,7 @@ export class NovaReservaComponent implements OnInit {
     '14h às 16h',
     '16h às 18h',
   ];
-  public filterHorarioOptions: string[] = ['1', '2', '3'];
+  public filterHorarioOptions: string[] = [];
 
   public reservaInfo = {
     centroEsportivo: null,
