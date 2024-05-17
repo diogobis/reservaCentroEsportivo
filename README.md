@@ -56,10 +56,10 @@ A seguir, são instruções para baixar e rodar o projeto, incluindo Frontend e 
 
 Siga os passos a seguir para a instalação:
 
-1. **Clone o repositório:** Começe clonando o repositório para seu computador
+1. **Clone o repositório:** Começe [instalando o Git](https://git-scm.com/downloads) e clonando o repositório para seu computador pelo CMD:
 
    ```
-   https://github.com/ligeirin/reservaCentroEsportivo
+   git clone https://github.com/ligeirin/reservaCentroEsportivo
    ```
 
 2. **Instale os packages do Frontend:** Navegue para a pasta &quot;/reservaCentroEsportivo&quot; e instale os packages necessários usando o comando no seu terminal:
@@ -74,13 +74,25 @@ Siga os passos a seguir para a instalação:
    npm install
    ```
 
-4. **Rode o Backend:** Navegue para a pasta &quot;/backend&quot; e digite o seguinte comando para rodar o server Backend no seu terminal:
+4. **Configure o banco de dados:** Rode [este script](https://github.com/ligeirin/reservaCentroEsportivo/blob/master/script_sql.txt) no MySQL Workbench para criar e popular as tabelas
+
+5. **Configure as variaveis de ambiente:** Acesse o arquivo .env dentro da pasta backend e preencha com as variaveis a seguir:
+
+   ```sh
+   URL=localhost
+   USER=root
+   PASSWORD={senha do usuario root do MySQL}
+   DATABASE=reservacentroesportivo
+   PORT=3000
+   ```
+
+6. **Rode o Backend:** Navegue para a pasta &quot;/backend&quot; e digite o seguinte comando para rodar o server Backend no seu terminal:
 
    ```sh
    npm run start
    ```
 
-5. **Rode o Frontend:** Por fim, navegue para a pasta &quot;/reservaCentroEsportivo&quot; e digite o seguinte comando para rodar o frontend no seu terminal:
+7. **Rode o Frontend:** Por fim, navegue para a pasta &quot;/reservaCentroEsportivo&quot; e digite o seguinte comando para rodar o frontend no seu terminal:
 
    ```sh
    npm run start
@@ -91,7 +103,7 @@ Siga os passos a seguir para a instalação:
 ## Funcionalidades
 
    - [x] Validação de disponibilidade de centro esportivo para dia e horário inseridos
-   - [ ] Validação de data de reserva
+   - [x] Validação de data de reserva
 
 ## Contato
 
