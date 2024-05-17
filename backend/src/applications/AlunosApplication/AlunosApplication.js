@@ -24,11 +24,8 @@ class AlunosApplication extends BaseApplication {
         .map((p) => p.RA)
         .join(",")})`;
 
-      console.log(sql);
-
       db.query(sql, (err, results) => {
         if (err) throw err;
-        console.log(results);
 
         let valid = true;
         for (let p of participantes) {
