@@ -88,8 +88,6 @@ class ReservaApplication extends BaseApplication {
     });
 
     app.post(`/reserva/registrar`, (req, res) => {
-      console.log(req, res);
-
       let reserva = { ...req.body };
       delete reserva.participantes;
       reserva.created = new Date()
@@ -99,8 +97,6 @@ class ReservaApplication extends BaseApplication {
 
       let participantes = req.body.participantes;
 
-      console.log(reserva, participantes);
-
       let queryReserva = `INSERT INTO Reserva (${Object.keys(reserva).join(
         ","
       )}) VALUES (${Object.keys(reserva)
@@ -108,8 +104,6 @@ class ReservaApplication extends BaseApplication {
         .join(",")})`;
       db.query(queryReserva, (err, results) => {
         if (err) throw err;
-
-        console.log(results);
 
         let queryParticipantes = `INSERT INTO participantesreserva (aluno, reserva, created) VALUES ${participantes
           .map((p) => {
@@ -120,7 +114,6 @@ class ReservaApplication extends BaseApplication {
           })
           .join(",")}`;
         db.query(queryParticipantes, (err, results) => {
-          console.log(results);
           if (err) throw err;
 
           res.json({ message: "Success!" });

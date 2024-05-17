@@ -1,0 +1,139 @@
+CREATE DATABASE reservacentroesportivo;
+USE reservacentroesportivo;
+
+CREATE TABLE CentrosEsportivos (
+	ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    descricao VARCHAR(20) NOT NULL,
+    created DATETIME NOT NULL,
+    minimoParticipantes INT NOT NULL,
+    deleted DATETIME
+);
+
+INSERT INTO CentrosEsportivos (descricao, created, minimoParticipantes) VALUES ("Quadra 01", NOW(), 8);
+INSERT INTO CentrosEsportivos (descricao, created, minimoParticipantes) VALUES ("Quadra 02", NOW(), 8);
+INSERT INTO CentrosEsportivos (descricao, created, minimoParticipantes) VALUES ("Quadra 03", NOW(), 8);
+INSERT INTO CentrosEsportivos (descricao, created, minimoParticipantes) VALUES ("Campo 01", NOW(), 10);
+INSERT INTO CentrosEsportivos (descricao, created, minimoParticipantes) VALUES ("Campo 02", NOW(), 10);
+
+CREATE TABLE Horarios (
+	ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    tipo VARCHAR(3) NOT NULL,
+    inicio INT NOT NULL,
+    fim INT NOT NULL
+);
+
+INSERT INTO horarios (tipo, inicio, fim) VALUES ("F", 8, 10);
+INSERT INTO horarios (tipo, inicio, fim) VALUES ("F", 10, 12);
+INSERT INTO horarios (tipo, inicio, fim) VALUES ("F", 12, 14);
+INSERT INTO horarios (tipo, inicio, fim) VALUES ("F", 14, 16);
+INSERT INTO horarios (tipo, inicio, fim) VALUES ("F", 16, 18);
+INSERT INTO horarios (tipo, inicio, fim) VALUES ("S", 21, 22);
+
+
+CREATE TABLE Alunos(
+	RA INT PRIMARY KEY NOT NULL,
+    usuario VARCHAR(50) NOT NULL,
+    curso VARCHAR(50) NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    telefone VARCHAR(15) NOT NULL,
+    created DATETIME NOT NULL,
+    senha VARCHAR(50) NOT NULL,
+    deleted DATETIME
+);
+
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+VALUES (
+	07251091,
+    "diogo.freitas",
+    "Engenharia de Software",
+    "Diogo Alves Bis de Freitas",
+    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    NOW()
+);
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+VALUES (
+	07251092,
+    "caio.victor",
+    "Engenharia de Software",
+    "Caio Victor",
+    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    NOW()
+);
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+VALUES (
+	07251093,
+    "gabriel.caldas",
+    "Engenharia de Software",
+    "Gabriel Caldas",
+    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    NOW()
+);
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+VALUES (
+	07251094,
+    "miguel.silva",
+    "Engenharia de Software",
+    "Miguel Silva",
+    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    NOW()
+);
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+VALUES (
+	07251095,
+    "walter.maia",
+    "Engenharia de Software",
+    "Walter Maia",
+    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    NOW()
+);
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+VALUES (
+	07251096,
+    "gustavo.orodrigues",
+    "Engenharia de Software",
+    "Gustavo Rodrigues",
+    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    NOW()
+);
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+VALUES (
+	07251097,
+    "ivan.lana",
+    "Engenharia de Software",
+    "Ivan Lana",
+    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    NOW()
+);
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+VALUES (
+	07251098,
+    "yara.lacerda",
+    "Engenharia de Software",
+    "Yara Lacerda",
+    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    NOW()
+);
+
+CREATE TABLE Reserva (
+	ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    dataReserva DATE NOT NULL,
+    horarioID INT NOT NULL,
+    FOREIGN KEY (horarioID) REFERENCES horarios (ID),
+    centroEsportivo INT NOT NULL,
+    FOREIGN KEY (centroEsportivo) REFERENCES centrosesportivos (ID),
+    alunoResponsavel INT NOT NULL,
+    FOREIGN KEY (alunoResponsavel) REFERENCES Alunos (RA),
+    created DATETIME NOT NULL,
+    deleted DATETIME
+);
+
+CREATE TABLE ParticipantesReserva (
+	aluno INT NOT NULL,
+    reserva INT NOT NULL,
+    PRIMARY KEY (aluno, reserva),
+	FOREIGN KEY (aluno) REFERENCES Alunos (RA),
+	FOREIGN KEY (reserva) REFERENCES Reserva (ID),
+    created DATETIME NOT NULL,
+    deleted DATETIME
+);
