@@ -72,8 +72,6 @@ export class HomeComponent {
                 );
                 return res;
               });
-
-            console.log(this.minhasReservas);
           });
       });
     });

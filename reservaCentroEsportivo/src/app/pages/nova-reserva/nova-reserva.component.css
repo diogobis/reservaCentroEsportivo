@@ -2,3 +2,87 @@
   display: grid;
   grid-template-columns: 1fr 10fr 4fr 1fr 10fr 4fr;
 }
+
+.calendar {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.17);
+}
+
+.calendar-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.calendar-day {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+
+  position: relative;
+}
+
+.invalid-date {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0, 0, 0, 0.35);
+  z-index: 1000;
+}
+
+.day-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  padding: 8px;
+  height: 60px;
+  background-color: rgb(28, 112, 223);
+  outline: 1px solid rgba(0, 0, 0, 0.17);
+  color: white;
+  font-weight: 500;
+}
+
+.horarios-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+
+  height: 100%;
+
+  outline: 1px solid rgba(0, 0, 0, 0.17);
+  position: relative;
+}
+
+/* .horario {
+  background-color: white;
+  border-radius: 4px;
+
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horario span {
+  text-align: center;
+}
+
+.horario-livre {
+  background-color: white;
+  outline: 1px solid green;
+}
+
+.horario-reservado {
+  background-color: red;
+} */
+
+.disabled-btn {
+  cursor: default !important;
+}

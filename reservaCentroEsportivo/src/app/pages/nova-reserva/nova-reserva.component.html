@@ -1,8 +1,8 @@
 <div class="container-sm">
   <div class="card m-2">
     <div class="card-body">
-      <form action="" class="row g-3">
-        <div class="col-md-6">
+      <div class="row g-3 mb-3">
+        <div class="col-md-12">
           <label for="espacoInput" class="form-label">Espaço</label>
           <select
             class="form-select"
@@ -19,43 +19,48 @@
             </option>
           </select>
         </div>
+      </div>
 
-        <div class="col-md-3">
-          <label for="dataInput" class="form-label">Data</label>
-          <input
-            id="startDate"
-            class="form-control"
-            id="dataInput"
-            name="data"
-            type="date"
-            min="{{ minDate }}"
-            max="{{ maxDate }}"
-            [(ngModel)]="reservaInfo.dataReserva"
-            (change)="checarDisponibilidade()"
-          />
-        </div>
+      <label for="" class="card-title">Horarios</label>
 
-        <div class="col-md-3">
-          <label for="horarioInput" class="form-label">Horário</label>
-          <select
-            class="form-select"
-            name="horario"
-            id="horarioInput"
-            [disabled]="reservaInfo.dataReserva === null"
-            [(ngModel)]="reservaInfo.horarioID"
-          >
-            <option [value]="null" disabled selected>
-              Selecione uma opção
-            </option>
-            <option
-              *ngFor="let op of filterHorarioOptions; index as i"
-              [value]="op.ID"
-            >
-              {{ op.inicio }}h às {{ op.fim }}h
-            </option>
-          </select>
+      <div
+        style="display: flex; align-items: center; justify-content: center"
+        *ngIf="filterCalendario.length == 0"
+      >
+        <span>Selecione um centro esportivo acima :)</span>
+      </div>
+
+      <div class="calendar" *ngIf="filterCalendario.length > 0">
+        <div class="calendar-body">
+          <div *ngFor="let data of filterCalendario" class="calendar-day">
+            <div class="day-title">
+              <span>{{ diaDaSemana(data.data) }}</span>
+              <span>{{ formatDate(data.data) }}</span>
+            </div>
+
+            <div class="horarios-wrapper">
+              <div *ngIf="!data.valid" class="invalid-date"></div>
+
+              <button
+                *ngFor="let horario of data.horarios"
+                class="horario btn"
+                [disabled]="horario.reservas.length > 0"
+                [ngClass]="
+                  horario.reservas.length > 0
+                    ? 'horario-reservado btn-danger disabled-btn'
+                    : data.data == reservaInfo.dataReserva &&
+                      horario.ID == reservaInfo.horarioID
+                    ? 'horario-livre btn-success'
+                    : 'horario-livre btn-outline-success'
+                "
+                (click)="selecionarHorario(data.data, horario.ID)"
+              >
+                <span>{{ horario.inicio }}h às {{ horario.fim }}h</span>
+              </button>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 

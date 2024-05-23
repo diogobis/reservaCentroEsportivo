@@ -28,7 +28,51 @@ class ReservaApplication extends BaseApplication {
       });
     });
 
-    app.get(`/reserva/include`, (req, res) => {
+    app.get(`/reserva/horarios`, (req, res) => {
+      let filter = req.query;
+      let sql = `SELECT * FROM reserva `;
+
+      //WHERE
+      let where = [];
+
+      if (Object.keys(filter).length > 0) {
+        sql += "WHERE ";
+
+        where.push(
+          `dataReserva BETWEEN '${filter["start"]}' AND '${filter["end"]}'`
+        );
+
+        delete filter.start;
+        delete filter.end;
+      }
+      for (let key of Object.keys(filter)) {
+        where.push(`${key} = ${filter[key]}`);
+      }
+
+      where = where.join(" AND ");
+      sql += where;
+
+      // sql += ` INNER JOIN horarios ON horarios.ID = reserva.horarioID `;
+
+      let horarios = {};
+      db.query("SELECT * FROM horarios", (err, results) => {
+        results.map((h) => {
+          horarios[h.ID] = h;
+        });
+        db.query(sql, (err, results) => {
+          if (err) throw err;
+
+          results.map((r) => {
+            r.horario = horarios[r.horarioID];
+            return r;
+          });
+
+          res.json(results);
+        });
+      });
+    });
+
+    app.get(`/reserva/participantes`, (req, res) => {
       let filter = req.query;
       let sql = `SELECT * FROM reserva `;
 
