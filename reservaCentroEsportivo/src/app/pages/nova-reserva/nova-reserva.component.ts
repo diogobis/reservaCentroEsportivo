@@ -53,6 +53,7 @@ export class NovaReservaComponent implements OnInit {
   faTimes = faTimes;
 
   public filterHorarioOptions: any[] = [];
+  public filterCalendario: any[] = [];
 
   public reservaInfo = {
     centroEsportivo: null,
@@ -75,78 +76,78 @@ export class NovaReservaComponent implements OnInit {
     },
     {
       RA: '07251092',
-      usuario: 'fulano.1',
+      usuario: 'caio.victor',
       curso: 'Engenharia de Software',
-      nome: 'Fulano 1',
+      nome: 'Caio Victor',
       email: 'diogo.freitas@a.unileste.edu.br',
       telefone: '(31) 99982-5752',
-      created: '2024-05-10T14:05:33.000Z',
+      created: '2024-05-17T02:13:02.000Z',
       senha: '1234',
       deleted: null,
     },
     {
       RA: '07251093',
-      usuario: 'fulano.2',
+      usuario: 'gabriel.caldas',
       curso: 'Engenharia de Software',
-      nome: 'Fulano 2',
+      nome: 'Gabriel Caldas',
       email: 'diogo.freitas@a.unileste.edu.br',
       telefone: '(31) 99982-5752',
-      created: '2024-05-10T14:05:33.000Z',
+      created: '2024-05-17T02:13:02.000Z',
       senha: '1234',
       deleted: null,
     },
     {
       RA: '07251094',
-      usuario: 'fulano.3',
+      usuario: 'miguel.silva',
       curso: 'Engenharia de Software',
-      nome: 'Fulano 3',
+      nome: 'Miguel Silva',
       email: 'diogo.freitas@a.unileste.edu.br',
       telefone: '(31) 99982-5752',
-      created: '2024-05-10T14:05:33.000Z',
+      created: '2024-05-17T02:13:02.000Z',
       senha: '1234',
       deleted: null,
     },
     {
       RA: '07251095',
-      usuario: 'fulano.4',
+      usuario: 'walter.maia',
       curso: 'Engenharia de Software',
-      nome: 'Fulano 4',
+      nome: 'Walter Maia',
       email: 'diogo.freitas@a.unileste.edu.br',
       telefone: '(31) 99982-5752',
-      created: '2024-05-10T14:05:33.000Z',
+      created: '2024-05-17T02:13:02.000Z',
       senha: '1234',
       deleted: null,
     },
     {
       RA: '07251096',
-      usuario: 'fulano.5',
+      usuario: 'gustavo.orodrigues',
       curso: 'Engenharia de Software',
-      nome: 'Fulano 5',
+      nome: 'Gustavo Rodrigues',
       email: 'diogo.freitas@a.unileste.edu.br',
       telefone: '(31) 99982-5752',
-      created: '2024-05-10T14:05:33.000Z',
+      created: '2024-05-17T02:13:02.000Z',
       senha: '1234',
       deleted: null,
     },
     {
       RA: '07251097',
-      usuario: 'fulano.6',
+      usuario: 'ivan.lana',
       curso: 'Engenharia de Software',
-      nome: 'Fulano 6',
+      nome: 'Ivan Lana',
       email: 'diogo.freitas@a.unileste.edu.br',
       telefone: '(31) 99982-5752',
-      created: '2024-05-10T14:05:33.000Z',
+      created: '2024-05-17T02:13:02.000Z',
       senha: '1234',
       deleted: null,
     },
     {
       RA: '07251098',
-      usuario: 'fulano.7',
+      usuario: 'yara.lacerda',
       curso: 'Engenharia de Software',
-      nome: 'Fulano 7',
+      nome: 'Yara Lacerda',
       email: 'diogo.freitas@a.unileste.edu.br',
       telefone: '(31) 99982-5752',
-      created: '2024-05-10T14:05:33.000Z',
+      created: '2024-05-17T02:13:02.000Z',
       senha: '1234',
       deleted: null,
     },
@@ -209,19 +210,114 @@ export class NovaReservaComponent implements OnInit {
       return ct.ID == this.reservaInfo.centroEsportivo;
     });
 
-    this.reservaService
-      .checarDisponibilidade(
-        this.reservaInfo.dataReserva,
-        this.reservaInfo.centroEsportivo
-      )
-      .then((result: any) => {
-        this.filterHorarioOptions = result;
-      });
+    let start = new Date(
+      new Date().setDate(new Date().getDate() - new Date().getDay())
+    );
+    start.setHours(0, 0, 0, 0);
+
+    let end = new Date(
+      new Date().setDate(new Date().getDate() + (13 - new Date().getDay()))
+    );
+    end.setHours(23, 59, 59, 999);
+
+    this.horarioService.get().then((horarios: any) => {
+      this.reservaService
+        .getComHorarios({
+          centroEsportivo: this.reservaInfo.centroEsportivo,
+          start: start.toISOString(),
+          end: end.toISOString(),
+        })
+        .then((result: any) => {
+          this.filterCalendario = result;
+
+          let weekDates = this.getDatesCurrentAndNextWeek();
+
+          this.filterCalendario = weekDates.map((d: any) => {
+            let reservas = result.filter((r: any) => {
+              return this.formatDate(d) == this.formatDate(r.dataReserva);
+            });
+
+            let horariosDate = horarios.filter((h: any) => {
+              return d.getDay() == 6 || d.getDay() == 0
+                ? h.tipo == 'F'
+                : h.tipo == 'S';
+            });
+
+            horariosDate = horariosDate.map((h: any) => {
+              let reservasHorario = reservas.filter((r: any) => {
+                return r.horarioID == h.ID;
+              });
+
+              return {
+                ...h,
+                reservas: reservasHorario,
+              };
+            });
+
+            return {
+              data: d,
+              valid: this.validateDate(d),
+              horarios: horariosDate,
+            };
+          });
+        });
+    });
+
+    this.reservaInfo.horarioID = null;
+  }
+
+  public validateDate(date: Date) {
+    let d = new Date();
+    d.setHours(0, 0, 0, 0);
+    let startValid = new Date(d.setDate(d.getDate() + 2));
+    let endValid = new Date(d.setDate(d.getDate() + 6));
+
+    return (
+      date.valueOf() >= startValid.valueOf() &&
+      date.valueOf() <= endValid.valueOf()
+    );
+  }
+
+  public selecionarHorario(data: any, horarioID: any) {
+    this.reservaInfo.horarioID = horarioID;
+    this.reservaInfo.dataReserva = data;
+  }
+
+  public getDatesCurrentAndNextWeek() {
+    const today = new Date();
+
+    const startOfWeek = new Date(
+      today.setDate(today.getDate() - today.getDay())
+    );
+
+    const nextWeekEnd = new Date(
+      startOfWeek.getTime() + 14 * 24 * 60 * 60 * 1000 - 1
+    );
+
+    let dates = [];
+    for (
+      let date = startOfWeek;
+      date <= nextWeekEnd;
+      date.setDate(date.getDate() + 1)
+    ) {
+      dates.push(new Date(date));
+    }
+
+    dates = dates.map((d: Date) => {
+      d.setHours(0, 0, 0, 0);
+      return d;
+    });
+
+    return dates;
   }
 
   public fazerReserva() {
     this.usuarioService.validarRA(this.participantes).then((result: any) => {
       if (result.valid) {
+        this.reservaInfo.dataReserva =
+          new Date(this.reservaInfo.dataReserva).toISOString().split('T')[0] +
+          ' 00:00:00';
+
         this.reservaService.fazerReserva({
           ...this.reservaInfo,
           participantes: this.participantes,
@@ -231,5 +327,21 @@ export class NovaReservaComponent implements OnInit {
         alert("RA's inválidos!");
       }
     });
+  }
+
+  public formatDate(date: string) {
+    return this.datePipe.transform(date, 'dd/MM/yyyy');
+  }
+
+  public diaDaSemana(date: string) {
+    let capitalizeFirstLetter = function (str: string | undefined) {
+      if (!str) return;
+
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
+    return capitalizeFirstLetter(
+      this.datePipe.transform(date, 'EEEE', '', 'pt-BR')?.toString()
+    );
   }
 }

@@ -51,7 +51,18 @@ export class ReservaService extends BaseService {
 
   public getComParticipantes(filter?: any) {
     return lastValueFrom(
-      this._http.get(this.url + '/include', {
+      this._http.get(this.url + '/participantes', {
+        params: filter ? filter : undefined,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+    ).catch(this.errorHandler);
+  }
+
+  public getComHorarios(filter?: any) {
+    return lastValueFrom(
+      this._http.get(this.url + '/horarios', {
         params: filter ? filter : undefined,
         headers: {
           'Content-Type': 'application/json',
