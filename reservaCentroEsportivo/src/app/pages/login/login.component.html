@@ -3,9 +3,13 @@
     <div class="card-body">
       <form class="row g-3">
         <div class="col-md-12 d-flex justify-content-center align-items-center">
-          <img class="img-fluid" src="../../../assets/unileste_logo.png" alt="Logo da Unileste" />
+          <img
+            class="img-fluid"
+            src="../../../assets/unileste_logo.png"
+            alt="Logo da Unileste"
+          />
         </div>
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
           <label for="" class="form-label">Registro</label>
           <input
             type="text"
@@ -28,6 +32,15 @@
         <div class="col-md-12 d-flex justify-content-stretch">
           <button class="btn btn-primary flex-grow-1" (click)="doLogin()">
             LOGIN
+          </button>
+        </div> -->
+        <div class="col-md-12 d-flex justify-content-stretch">
+          <button
+            class="btn btn-primary flex-grow-1"
+            (click)="loginMicrosoft()"
+          >
+            <fa-icon [icon]="faMicrosoft" />
+            Microsoft
           </button>
         </div>
       </form>
