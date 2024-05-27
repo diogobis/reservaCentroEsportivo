@@ -31,87 +31,86 @@ INSERT INTO horarios (tipo, inicio, fim) VALUES ("S", 21, 22);
 
 
 CREATE TABLE Alunos(
-	RA INT PRIMARY KEY NOT NULL,
+	RA VARCHAR(9) PRIMARY KEY NOT NULL,
     usuario VARCHAR(50) NOT NULL,
     curso VARCHAR(50) NOT NULL,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     telefone VARCHAR(15) NOT NULL,
     created DATETIME NOT NULL,
-    senha VARCHAR(50) NOT NULL,
     deleted DATETIME
 );
 
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
-	07251091,
+	'A07251091',
     "diogo.freitas",
     "Engenharia de Software",
     "Diogo Alves Bis de Freitas",
-    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
-	07251092,
+	'A07251092',
     "caio.victor",
     "Engenharia de Software",
     "Caio Victor",
-    "caio.arantes@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "caio.arantes@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
-	07251093,
+	'A07251093',
     "gabriel.caldas",
     "Engenharia de Software",
     "Gabriel Caldas",
-    "gabriel.caldas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "gabriel.caldas@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
-	07251094,
+	'A07251094',
     "miguel.silva",
     "Engenharia de Software",
     "Miguel Silva",
-    "miguel.silva@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "miguel.silva@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
-	07251095,
+	'A07251095',
     "walter.maia",
     "Engenharia de Software",
     "Walter Maia",
-    "walter.maia@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "walter.maia@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
-	07251096,
+	'A07251096',
     "gustavo.orodrigues",
     "Engenharia de Software",
     "Gustavo Rodrigues",
-    "gustavo.orodrigues@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "gustavo.orodrigues@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
-	07251097,
+	'A07251097',
     "ivan.lana",
     "Engenharia de Software",
     "Ivan Lana",
-    "ivan.lana@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "ivan.lana@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
+INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
-	07251098,
+	'A07251098',
     "yara.lacerda",
     "Engenharia de Software",
     "Yara Lacerda",
-    "yara.lacerda@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "yara.lacerda@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
 
@@ -122,14 +121,14 @@ CREATE TABLE Reserva (
     FOREIGN KEY (horarioID) REFERENCES horarios (ID),
     centroEsportivo INT NOT NULL,
     FOREIGN KEY (centroEsportivo) REFERENCES centrosesportivos (ID),
-    alunoResponsavel INT NOT NULL,
+    alunoResponsavel VARCHAR(9) NOT NULL,
     FOREIGN KEY (alunoResponsavel) REFERENCES Alunos (RA),
     created DATETIME NOT NULL,
     deleted DATETIME
 );
 
 CREATE TABLE ParticipantesReserva (
-	aluno INT NOT NULL,
+	aluno VARCHAR(9) NOT NULL,
     reserva INT NOT NULL,
     PRIMARY KEY (aluno, reserva),
 	FOREIGN KEY (aluno) REFERENCES Alunos (RA),

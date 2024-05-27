@@ -21,9 +21,9 @@ class AlunosApplication extends BaseApplication {
     app.get("/alunos/validar", (req, res) => {
       let participantes = JSON.parse(req.query.participantes);
       let sql = `SELECT * FROM alunos WHERE RA IN (${participantes
-        .map((p) => p.RA)
+        .map((p) => `'${p.RA}'`)
         .join(",")})`;
-
+        
       db.query(sql, (err, results) => {
         if (err) throw err;
 

@@ -17,7 +17,7 @@ class ReservaApplication extends BaseApplication {
       if (Object.keys(filter).length > 0) sql += "WHERE ";
       let where = [];
       for (let key of Object.keys(filter)) {
-        where.push(`${key} = ${filter[key]}`);
+        where.push(`${key} = '${filter[key]}'`);
       }
       where = where.join(" AND ");
       sql += where;
@@ -46,7 +46,7 @@ class ReservaApplication extends BaseApplication {
         delete filter.end;
       }
       for (let key of Object.keys(filter)) {
-        where.push(`${key} = ${filter[key]}`);
+        where.push(`${key} = '${filter[key]}'`);
       }
 
       where = where.join(" AND ");
@@ -80,7 +80,7 @@ class ReservaApplication extends BaseApplication {
       if (Object.keys(filter).length > 0) sql += "WHERE ";
       let where = [];
       for (let key of Object.keys(filter)) {
-        where.push(`${key} = ${filter[key]}`);
+        where.push(`${key} = '${filter[key]}'`);
       }
       where = where.join(" AND ");
       sql += where;
@@ -151,9 +151,9 @@ class ReservaApplication extends BaseApplication {
 
         let queryParticipantes = `INSERT INTO participantesreserva (aluno, reserva, created) VALUES ${participantes
           .map((p) => {
-            return `(${p.RA}, ${results.insertId}, '${new Date()
+            return `('${p.RA}', ${results.insertId}, '${new Date()
               .toISOString()
-              .replace("Z", " ")
+              .replace("Z", "")
               .replace("T", " ")}')`;
           })
           .join(",")}`;
