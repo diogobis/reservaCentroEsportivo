@@ -57,7 +57,7 @@ VALUES (
     "caio.victor",
     "Engenharia de Software",
     "Caio Victor",
-    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "caio.arantes@a.unileste.edu.br", "(31) 99982-5752", "1234",
     NOW()
 );
 INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
@@ -66,7 +66,7 @@ VALUES (
     "gabriel.caldas",
     "Engenharia de Software",
     "Gabriel Caldas",
-    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "gabriel.caldas@a.unileste.edu.br", "(31) 99982-5752", "1234",
     NOW()
 );
 INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
@@ -75,7 +75,7 @@ VALUES (
     "miguel.silva",
     "Engenharia de Software",
     "Miguel Silva",
-    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "miguel.silva@a.unileste.edu.br", "(31) 99982-5752", "1234",
     NOW()
 );
 INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
@@ -84,7 +84,7 @@ VALUES (
     "walter.maia",
     "Engenharia de Software",
     "Walter Maia",
-    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "walter.maia@a.unileste.edu.br", "(31) 99982-5752", "1234",
     NOW()
 );
 INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
@@ -93,7 +93,7 @@ VALUES (
     "gustavo.orodrigues",
     "Engenharia de Software",
     "Gustavo Rodrigues",
-    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "gustavo.orodrigues@a.unileste.edu.br", "(31) 99982-5752", "1234",
     NOW()
 );
 INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
@@ -102,7 +102,7 @@ VALUES (
     "ivan.lana",
     "Engenharia de Software",
     "Ivan Lana",
-    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "ivan.lana@a.unileste.edu.br", "(31) 99982-5752", "1234",
     NOW()
 );
 INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, senha, created)
@@ -111,13 +111,13 @@ VALUES (
     "yara.lacerda",
     "Engenharia de Software",
     "Yara Lacerda",
-    "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752", "1234",
+    "yara.lacerda@a.unileste.edu.br", "(31) 99982-5752", "1234",
     NOW()
 );
 
 CREATE TABLE Reserva (
 	ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    dataReserva DATE NOT NULL,
+    dataReserva DATETIME NOT NULL,
     horarioID INT NOT NULL,
     FOREIGN KEY (horarioID) REFERENCES horarios (ID),
     centroEsportivo INT NOT NULL,
