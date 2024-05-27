@@ -64,7 +64,7 @@ export class NovaReservaComponent implements OnInit {
 
   public participantes: any[] = [
     {
-      RA: '07251091',
+      RA: 'A07251091',
       usuario: 'diogo.freitas',
       curso: 'Engenharia de Software',
       nome: 'Diogo Alves Bis de Freitas',
@@ -75,7 +75,7 @@ export class NovaReservaComponent implements OnInit {
       deleted: null,
     },
     {
-      RA: '07251092',
+      RA: 'A07251092',
       usuario: 'caio.victor',
       curso: 'Engenharia de Software',
       nome: 'Caio Victor',
@@ -86,7 +86,7 @@ export class NovaReservaComponent implements OnInit {
       deleted: null,
     },
     {
-      RA: '07251093',
+      RA: 'A07251093',
       usuario: 'gabriel.caldas',
       curso: 'Engenharia de Software',
       nome: 'Gabriel Caldas',
@@ -97,7 +97,7 @@ export class NovaReservaComponent implements OnInit {
       deleted: null,
     },
     {
-      RA: '07251094',
+      RA: 'A07251094',
       usuario: 'miguel.silva',
       curso: 'Engenharia de Software',
       nome: 'Miguel Silva',
@@ -108,7 +108,7 @@ export class NovaReservaComponent implements OnInit {
       deleted: null,
     },
     {
-      RA: '07251095',
+      RA: 'A07251095',
       usuario: 'walter.maia',
       curso: 'Engenharia de Software',
       nome: 'Walter Maia',
@@ -119,7 +119,7 @@ export class NovaReservaComponent implements OnInit {
       deleted: null,
     },
     {
-      RA: '07251096',
+      RA: 'A07251096',
       usuario: 'gustavo.orodrigues',
       curso: 'Engenharia de Software',
       nome: 'Gustavo Rodrigues',
@@ -130,7 +130,7 @@ export class NovaReservaComponent implements OnInit {
       deleted: null,
     },
     {
-      RA: '07251097',
+      RA: 'A07251097',
       usuario: 'ivan.lana',
       curso: 'Engenharia de Software',
       nome: 'Ivan Lana',
@@ -141,7 +141,7 @@ export class NovaReservaComponent implements OnInit {
       deleted: null,
     },
     {
-      RA: '07251098',
+      RA: 'A07251098',
       usuario: 'yara.lacerda',
       curso: 'Engenharia de Software',
       nome: 'Yara Lacerda',
