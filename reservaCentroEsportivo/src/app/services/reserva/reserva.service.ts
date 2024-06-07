@@ -25,20 +25,6 @@ export class ReservaService extends BaseService {
     );
   }
 
-  public getInterval(start: string, end: string) {
-    return lastValueFrom(
-      this._http.get(this.url + '/interval', {
-        params: {
-          start,
-          end,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-    ).catch(super.errorHandler);
-  }
-
   public fazerReserva(body: object) {
     return lastValueFrom(
       this._http.post(this.url + '/registrar', body, {

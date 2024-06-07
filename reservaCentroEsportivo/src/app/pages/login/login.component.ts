@@ -29,8 +29,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private usuarioService: UsuarioService,
     private msalService: MsalService
-  ) {
-  }
+  ) {}
 
   async ngOnInit() {
     await lastValueFrom(this.msalService.initialize());
@@ -40,7 +39,6 @@ export class LoginComponent implements OnInit {
     try {
       this.msalService.loginPopup().subscribe((result) => {
         let user = result.account;
-        console.log(user);
         this.usuarioService
           .get({ email: user.username })
           .then((result: any) => {
@@ -48,12 +46,12 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['home']);
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             alert('Login falhou');
           });
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert('Login falhou');
     }
   }
