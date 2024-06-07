@@ -1,7 +1,6 @@
 <br/>
 <div align="center">
-<a href="https://github.com/ShaanCoding/makeread.me">
-<img  height="100" src="./reservaCentroEsportivo/src/assets/unileste_logo.png"/>
+<img  height="100" src="./frontend/src/assets/unileste_logo.png"/>
 </a>
 <h3 align="center">Sistema para reserva dos centros esportivos da Unileste MG</h3>
 <p align="center">
@@ -16,7 +15,7 @@ Sistema WEB para reserva das quadras e campos
 
 ## Sobre o projeto
 
-![Página inical](./imagens/home.PNG)
+![Página inical](imagens/home.PNG)
 
 Atualmente, a reserva dos centros esportivos para a Unileste MG é feita através de um formulário adquirido no site da universidade, que é preenchido pelo aluno responsável e enviado por email.
 
@@ -60,15 +59,17 @@ Siga os passos a seguir para a instalação:
    git clone https://github.com/ligeirin/reservaCentroEsportivo
    ```
 
-2. **Instale os packages do Frontend:** Navegue para a pasta &quot;/reservaCentroEsportivo&quot; e instale os packages necessários usando o comando no seu terminal:
+2. **Instale os packages do Frontend:** Abra um novo terminal e navegue para a pasta &quot;/frontend&quot; e instale os packages necessários usando os comandos abaixo:
 
    ```sh
+   cd frontend
    npm install
    ```
 
-3. **Instale os packages do Backend:** Navegue para a pasta &quot;/backend&quot; e instale os packages necessários usando o comando no seu terminal:
+3. **Instale os packages do Backend:** Abra um novo terminal e navegue para a pasta &quot;/backend&quot; e instale os packages necessários usando o comando no seu terminal:
 
    ```sh
+   cd backend
    npm install
    ```
 
@@ -84,13 +85,13 @@ Siga os passos a seguir para a instalação:
    PORT=3000
    ```
 
-6. **Rode o Backend:** Navegue para a pasta &quot;/backend&quot; e digite o seguinte comando para rodar o server Backend no seu terminal:
+6. **Rode o Backend:** Dentro da pasta &quot;/backend&quot;, digite o seguinte comando para rodar o server Backend no seu terminal:
 
    ```sh
    npm run start
    ```
 
-7. **Rode o Frontend:** Por fim, navegue para a pasta &quot;/reservaCentroEsportivo&quot; e digite o seguinte comando para rodar o frontend no seu terminal:
+7. **Rode o Frontend:** Por fim, dentro da pasta &quot;/frontend&quot;, digite o seguinte comando para rodar o frontend no seu terminal:
 
    ```sh
    npm run start
