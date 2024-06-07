@@ -39,9 +39,10 @@ import { CentroEsportivoService } from '../../services/centroEsportivo/centro-es
   ],
 })
 export class NovaReservaComponent implements OnInit {
-  public myControl: FormControl = new FormControl('');
+  public autocompleteControl: FormControl = new FormControl('');
   public filteredOptions: Observable<any[]> | undefined;
   public usuarioLogado: any;
+  public editingID: number | undefined = undefined;
 
   public minDate = new Date(new Date().valueOf() + 2 * 24 * 60 * 60 * 1000)
     .toISOString()
@@ -167,34 +168,38 @@ export class NovaReservaComponent implements OnInit {
     private router: Router
   ) {
     this.usuarioLogado = JSON.parse(localStorage.getItem('user') as string);
-    this.usuarioLogado.RA = this.usuarioLogado.RA.toString().padStart(8, '0');
     this.reservaInfo.alunoResponsavel = this.usuarioLogado.RA;
-
-    this.ctService.get().then((result: any) => {
-      this.centrosEsportivos = result;
-    });
   }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.centrosEsportivos = await this.ctService.get();
 
-  public filterAutocomplete() {
-    if (this.myControl.value === '') return;
+    if (localStorage.getItem('editingID')) {
+      this.editingID = JSON.parse(localStorage.getItem('editingID') as string);
+      localStorage.removeItem('editingID');
+      this.participantes = [];
+      this.edit();
+    }
+  }
+
+  public async filterAutocomplete() {
+    if (this.autocompleteControl.value === '') return;
 
     this.filteredOptions = this.usuarioService.filtroPorNome(
-      this.myControl.value
+      this.autocompleteControl.value
     );
   }
 
   public adicionarParticipante() {
-    if (!this.myControl.value) return;
+    if (!this.autocompleteControl.value) return;
 
     this.usuarioService
-      .get({ nome: this.myControl.value })
+      .get({ nome: this.autocompleteControl.value })
       .then((result: any) => {
         if (this.participantes.find((p) => p.RA == result[0].RA)) return;
         result[0].RA = '';
         this.participantes.push(result[0]);
-        this.myControl.setValue('');
+        this.autocompleteControl.setValue('');
       });
   }
 
@@ -263,7 +268,7 @@ export class NovaReservaComponent implements OnInit {
         });
     });
 
-    this.reservaInfo.horarioID = null;
+    // this.reservaInfo.horarioID = null;
   }
 
   public validateDate(date: Date) {
@@ -317,11 +322,18 @@ export class NovaReservaComponent implements OnInit {
         this.reservaInfo.dataReserva =
           new Date(this.reservaInfo.dataReserva).toISOString().split('T')[0] +
           ' 00:00:00';
-
-        this.reservaService.fazerReserva({
-          ...this.reservaInfo,
-          participantes: this.participantes,
-        });
+        if (this.editingID === undefined) {
+          this.reservaService.fazerReserva({
+            ...this.reservaInfo,
+            participantes: this.participantes,
+          });
+        } else {
+          this.reservaService.fazerReserva({
+            id: this.editingID,
+            ...this.reservaInfo,
+            participantes: this.participantes,
+          });
+        }
         this.router.navigate(['home']);
       } else {
         alert("RA's inválidos!");
@@ -343,5 +355,27 @@ export class NovaReservaComponent implements OnInit {
     return capitalizeFirstLetter(
       this.datePipe.transform(date, 'EEEE', '', 'pt-BR')?.toString()
     );
+  }
+
+  public async edit() {
+    let resultReserva: any = await this.reservaService.getComParticipantes({
+      ID: this.editingID,
+    });
+    let editingReserva = resultReserva[0];
+
+    this.reservaInfo = {
+      centroEsportivo: editingReserva.centroEsportivo,
+      dataReserva: new Date(editingReserva.dataReserva).toString(),
+      horarioID: editingReserva.horarioID,
+      alunoResponsavel: editingReserva.alunoResponsavel,
+    };
+
+    this.participantes = editingReserva.participantes;
+
+    this.ctSelecionado = this.centrosEsportivos.find((ct: any) => {
+      return ct.ID == this.reservaInfo.centroEsportivo;
+    });
+
+    this.checarDisponibilidade();
   }
 }

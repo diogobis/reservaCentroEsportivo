@@ -3,17 +3,35 @@
     <div class="card-body">
       <h2 class="card-title">Minhas reservas</h2>
       <p *ngIf="minhasReservas.length == 0" class="text-center">
-        Nenhuma reserva encontrada :(
+        Nenhuma reserva encontrada
       </p>
 
       <div class="row row-cols-2">
         <div class="col" *ngFor="let reserva of minhasReservas">
           <div class="card my-2">
             <div class="card-body">
-              <h2 class="card-title">
-                {{ reserva.formattedDate }} - {{ reserva.horario.inicio }}h às
-                {{ reserva.horario.fim }}h
-              </h2>
+              <div class="d-flex justify-content-between">
+                <h2 class="card-title">
+                  {{ reserva.formattedDate }} <br />{{
+                    reserva.horario.inicio
+                  }}h às {{ reserva.horario.fim }}h
+                </h2>
+                <div>
+                  <button
+                    (click)="editar(reserva.ID)"
+                    class="m-1 btn btn-warning"
+                  >
+                    <fa-icon [icon]="faEdit" />
+                  </button>
+                  <button
+                    (click)="openModal(reserva.ID)"
+                    class="m-1 btn btn-danger"
+                  >
+                    <fa-icon [icon]="faTimes" />
+                  </button>
+                </div>
+              </div>
+
               <h3>{{ reserva.formattedCtEsport }}</h3>
 
               <div
@@ -44,6 +62,47 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  #modal
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Deseja realmente excluir esta reserva?
+        </h1>
+        <!-- <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button> -->
+      </div>
+      <!-- <div class="modal-body">
+        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+      </div> -->
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+         -->
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-danger" (click)="excluir()">
+          Excluir
+        </button>
       </div>
     </div>
   </div>

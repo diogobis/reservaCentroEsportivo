@@ -27,7 +27,7 @@
         style="display: flex; align-items: center; justify-content: center"
         *ngIf="filterCalendario.length == 0"
       >
-        <span>Selecione um centro esportivo acima :)</span>
+        <span>Selecione um centro esportivo acima</span>
       </div>
 
       <div class="calendar" *ngIf="filterCalendario.length > 0">
@@ -46,11 +46,11 @@
                 class="horario btn"
                 [disabled]="horario.reservas.length > 0"
                 [ngClass]="
-                  horario.reservas.length > 0
-                    ? 'horario-reservado btn-danger disabled-btn'
-                    : data.data == reservaInfo.dataReserva &&
-                      horario.ID == reservaInfo.horarioID
+                  data.data == reservaInfo.dataReserva &&
+                  horario.ID == reservaInfo.horarioID
                     ? 'horario-livre btn-success'
+                    : horario.reservas.length > 0
+                    ? 'horario-reservado btn-danger disabled-btn'
                     : 'horario-livre btn-outline-success'
                 "
                 (click)="selecionarHorario(data.data, horario.ID)"
@@ -141,7 +141,7 @@
               placeholder="Nome"
               aria-describedby="button-addon2"
               matInput
-              [formControl]="myControl"
+              [formControl]="autocompleteControl"
               [matAutocomplete]="auto"
               (keyup)="filterAutocomplete()"
             />
