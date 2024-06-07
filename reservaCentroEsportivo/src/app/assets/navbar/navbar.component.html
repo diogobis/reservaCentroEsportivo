@@ -50,8 +50,14 @@
           <fa-icon [icon]="faUser"></fa-icon>
         </button>
         <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton1">
-          <li ngbDropdownItem class="d-flex justify-content-stretch">
-            <button (click)="deslogar()" class="btn btn-danger flex-grow-1">Sair</button>
+          <li
+            ngbDropdownItem
+            class="d-flex flex-column justify-content-stretch"
+          >
+            <span class="flex-grow-1 p-3">{{ user ? user.nome : "" }}</span>
+            <button (click)="deslogar()" class="btn btn-danger flex-grow-1">
+              Sair
+            </button>
           </li>
         </ul>
       </div>
