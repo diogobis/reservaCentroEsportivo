@@ -76,12 +76,27 @@ class ReservaApplication extends BaseApplication {
       let filter = req.query;
       let sql = `SELECT * FROM reserva `;
 
+      let start = filter.start;
+      let end = filter.end;
+
+      delete filter.start;
+      delete filter.end;
+
       //WHERE
       if (Object.keys(filter).length > 0) sql += "WHERE ";
       let where = [];
       for (let key of Object.keys(filter)) {
         where.push(`${key} = '${filter[key]}'`);
       }
+
+      if (start && end) {
+        where.push(`dataReserva BETWEEN '${start}' AND '${end}'`);
+      } else if (start) {
+        where.push(`dataReserva > '${start}'`);
+      } else if (end) {
+        where.push(`dataReserva < '${end}'`);
+      }
+
       where = where.join(" AND ");
       sql += where;
 
@@ -133,35 +148,73 @@ class ReservaApplication extends BaseApplication {
 
     app.post(`/reserva/registrar`, (req, res) => {
       let reserva = { ...req.body };
+      let editingID = reserva.id;
+      
       delete reserva.participantes;
-      reserva.created = new Date()
-        .toISOString()
-        .replace("Z", " ")
-        .replace("T", " ");
+
+      if (editingID) {
+        delete reserva.created;
+      } else {
+        reserva.created = new Date()
+          .toISOString()
+          .replace("Z", " ")
+          .replace("T", " ")
+          .trim();
+      }
 
       let participantes = req.body.participantes;
 
-      let queryReserva = `INSERT INTO Reserva (${Object.keys(reserva).join(
-        ","
-      )}) VALUES (${Object.keys(reserva)
-        .map((key) => `'${reserva[key]}'`)
-        .join(",")})`;
+      let queryReserva = "";
+      if (editingID) {
+        delete reserva.id;
+        queryReserva = `UPDATE reserva SET `;
+
+        queryReserva += Object.keys(reserva)
+          .map((key) => {
+            return `${key} = '${reserva[key]}'`;
+          })
+          .join(",");
+
+        queryReserva += ` WHERE ID = ${editingID}`;
+      } else {
+        queryReserva = `INSERT INTO Reserva (${Object.keys(reserva).join(
+          ","
+        )}) VALUES (${Object.keys(reserva)
+          .map((key) => `'${reserva[key]}'`)
+          .join(",")})`;
+      }
+
       db.query(queryReserva, (err, results) => {
         if (err) throw err;
 
-        let queryParticipantes = `INSERT INTO participantesreserva (aluno, reserva, created) VALUES ${participantes
-          .map((p) => {
-            return `('${p.RA}', ${results.insertId}, '${new Date()
-              .toISOString()
-              .replace("Z", "")
-              .replace("T", " ")}')`;
-          })
-          .join(",")}`;
-        db.query(queryParticipantes, (err, results) => {
-          if (err) throw err;
+        let insertId = editingID ? editingID : results.insertId;
 
-          res.json({ message: "Success!" });
-        });
+        let adicionarParticipantes = () => {
+          let queryParticipantes = `INSERT INTO participantesreserva (aluno, reserva, created) VALUES ${participantes
+            .map((p) => {
+              return `('${p.RA}', ${insertId}, '${new Date()
+                .toISOString()
+                .replace("Z", "")
+                .replace("T", " ")}')`;
+            })
+            .join(",")}`;
+          db.query(queryParticipantes, (err, results) => {
+            if (err) throw err;
+
+            res.json({ message: "Success!" });
+          });
+        };
+
+        if (editingID) {
+          let dropParticipantes = `DELETE FROM participantesreserva WHERE reserva = ${editingID}`;
+          db.query(dropParticipantes, (err, results) => {
+            if (err) throw err;
+
+            adicionarParticipantes();
+          });
+        } else {
+          adicionarParticipantes();
+        }
       });
     });
   }
