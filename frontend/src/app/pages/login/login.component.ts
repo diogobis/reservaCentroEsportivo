@@ -32,7 +32,7 @@ const $: any = window['$'];
 })
 export class LoginComponent implements OnInit {
   private _message$ = new Subject<string>();
-  successMessage = '';
+  failedLoginMessage = '';
 
   @ViewChild('selfClosingAlert', { static: false })
   selfClosingAlert: NgbAlert = new NgbAlert();
@@ -52,8 +52,8 @@ export class LoginComponent implements OnInit {
     this._message$
       .pipe(
         takeUntilDestroyed(),
-        tap((message) => (this.successMessage = message)),
-        debounceTime(5000)
+        tap((message) => (this.failedLoginMessage = message)),
+        debounceTime(10000)
       )
       .subscribe(() => this.selfClosingAlert?.close());
   }

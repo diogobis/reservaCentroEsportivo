@@ -23,10 +23,10 @@
   </div>
 </div>
 
-@if (successMessage) {
+@if (failedLoginMessage) {
 <div class="position-absolute top-0 end-0">
-  <ngb-alert #selfClosingAlert type="danger" (closed)="successMessage = ''">{{
-    successMessage
+  <ngb-alert #selfClosingAlert type="danger" (closed)="failedLoginMessage = ''">{{
+    failedLoginMessage
   }}</ngb-alert>
 </div>
 }
