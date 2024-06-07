@@ -113,14 +113,33 @@ VALUES (
     "yara.lacerda@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
+INSERT INTO reservacentroesportivo.alunos  (RA, usuario, curso, nome, email, telefone, created)
+VALUES(
+	'A07251099',
+	'igor.marques',
+	'Engenharia de Software',
+	'Igor Marques',
+	'igor.marques@a.unileste.edu.br',
+	NOW()
+);
+INSERT INTO reservacentroesportivo.alunos (RA, usuario, curso, nome, email, telefone, created)
+VALUES(
+	'A07251100',
+	'cayck.maia',
+	'Engenharia de Software',
+	'Cayck Maia',
+	'cayck.maia@a.unileste.edu.br',
+	'(31) 99982-5762',
+	NOW()
+);
 
 CREATE TABLE Reserva (
 	ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     dataReserva DATETIME NOT NULL,
     horarioID INT NOT NULL,
-    FOREIGN KEY (horarioID) REFERENCES horarios (ID),
+    FOREIGN KEY (horarioID) REFERENCES horarios (ID) ON DELETE CASCADE,
     centroEsportivo INT NOT NULL,
-    FOREIGN KEY (centroEsportivo) REFERENCES centrosesportivos (ID),
+    FOREIGN KEY (centroEsportivo) REFERENCES centrosesportivos (ID) ON DELETE CASCADE,
     alunoResponsavel VARCHAR(9) NOT NULL,
     FOREIGN KEY (alunoResponsavel) REFERENCES Alunos (RA),
     created DATETIME NOT NULL,
@@ -132,7 +151,7 @@ CREATE TABLE ParticipantesReserva (
     reserva INT NOT NULL,
     PRIMARY KEY (aluno, reserva),
 	FOREIGN KEY (aluno) REFERENCES Alunos (RA),
-	FOREIGN KEY (reserva) REFERENCES Reserva (ID),
+	FOREIGN KEY (reserva) REFERENCES Reserva (ID) ON DELETE CASCADE,
     created DATETIME NOT NULL,
     deleted DATETIME
 );
