@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReservaService } from '../../services/reserva/reserva.service';
 import { CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -6,13 +6,17 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Router, RouterModule } from '@angular/router';
 import { HorarioService } from '../../services/horario/horario.service';
 import { CentroEsportivoService } from '../../services/centroEsportivo/centro-esportivo.service';
+
+import { NgbAlert, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nova-reserva',
@@ -36,9 +40,17 @@ import { CentroEsportivoService } from '../../services/centroEsportivo/centro-es
     AsyncPipe,
     FontAwesomeModule,
     RouterModule,
+    NgbAlertModule,
   ],
 })
 export class NovaReservaComponent implements OnInit {
+  private _message$ = new Subject<string>();
+  public invalidParticipantsMessage: any = '';
+  public invalidAlunos: any = null;
+
+  @ViewChild('selfClosingAlert', { static: false })
+  selfClosingAlert: NgbAlert = new NgbAlert();
+
   public autocompleteControl: FormControl = new FormControl('');
   public filteredOptions: Observable<any[]> | undefined;
   public usuarioLogado: any;
@@ -169,6 +181,14 @@ export class NovaReservaComponent implements OnInit {
   ) {
     this.usuarioLogado = JSON.parse(localStorage.getItem('user') as string);
     this.reservaInfo.alunoResponsavel = this.usuarioLogado.RA;
+
+    this._message$
+      .pipe(
+        takeUntilDestroyed(),
+        tap((message) => (this.invalidAlunos = message)),
+        debounceTime(5000)
+      )
+      .subscribe(() => this.selfClosingAlert?.close());
   }
 
   async ngOnInit() {
@@ -336,7 +356,7 @@ export class NovaReservaComponent implements OnInit {
         }
         this.router.navigate(['home']);
       } else {
-        alert("RA's inválidos!");
+        this._message$.next(result.invalidAlunos);
       }
     });
   }
