@@ -9,31 +9,6 @@
             alt="Logo da Unileste"
           />
         </div>
-        <!-- <div class="col-md-12">
-          <label for="" class="form-label">Registro</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="login.RA"
-            name="registro"
-            id="registroInput"
-          />
-        </div>
-        <div class="col-md-12">
-          <label for="" class="form-label">Senha</label>
-          <input
-            name="senha"
-            id="senhaInput"
-            type="password"
-            class="form-control"
-            [(ngModel)]="login.senha"
-          />
-        </div>
-        <div class="col-md-12 d-flex justify-content-stretch">
-          <button class="btn btn-primary flex-grow-1" (click)="doLogin()">
-            LOGIN
-          </button>
-        </div> -->
         <div class="col-md-12 d-flex justify-content-stretch">
           <button
             class="btn btn-primary flex-grow-1"
@@ -47,3 +22,11 @@
     </div>
   </div>
 </div>
+
+@if (successMessage) {
+<div class="position-absolute top-0 end-0">
+  <ngb-alert #selfClosingAlert type="danger" (closed)="successMessage = ''">{{
+    successMessage
+  }}</ngb-alert>
+</div>
+}
