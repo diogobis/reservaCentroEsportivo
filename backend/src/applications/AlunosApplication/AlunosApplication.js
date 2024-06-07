@@ -23,20 +23,25 @@ class AlunosApplication extends BaseApplication {
       let sql = `SELECT * FROM alunos WHERE RA IN (${participantes
         .map((p) => `'${p.RA}'`)
         .join(",")})`;
-        
+
       db.query(sql, (err, results) => {
         if (err) throw err;
+
+        let invalidAlunos = [];
 
         let valid = true;
         for (let p of participantes) {
           let aluno = results.find((r) => r.RA == p.RA);
-          if (aluno.nome !== p.nome) {
+          if (!aluno) {
             valid = false;
-            break;
+            invalidAlunos.push(p);
+          } else if (aluno.nome !== p.nome) {
+            valid = false;
+            invalidAlunos.push(p);
           }
         }
 
-        res.json({ valid: valid });
+        res.json({ valid, invalidAlunos });
       });
     });
   }
