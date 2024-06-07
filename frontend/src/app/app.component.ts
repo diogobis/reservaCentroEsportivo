@@ -22,6 +22,7 @@ import {
 } from '@azure/msal-browser';
 
 export function loggerCallback(logLevel: LogLevel, message: string) {
+  return;
   console.log(message);
 }
 
