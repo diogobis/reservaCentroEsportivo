@@ -99,11 +99,6 @@ Siga os passos a seguir para a instalação:
 
    Agora, acesse [localhost:4200](http://localhost:4200) para acessar a aplicação!
 
-## Funcionalidades
-
-   - [x] Validação de disponibilidade de centro esportivo para dia e horário inseridos
-   - [x] Validação de data de reserva
-
 ## Contato
 
 Perguntas ou sugestões, entre em contato:
