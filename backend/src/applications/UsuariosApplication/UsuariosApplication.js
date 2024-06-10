@@ -2,49 +2,49 @@
 
 const BaseApplication = require("../BaseApplication/BaseApplication");
 
-class AlunosApplication extends BaseApplication {
+class UsuariosApplication extends BaseApplication {
   constructor(app, db) {
-    super(app, db, "alunos");
+    super(app, db, "usuarios");
 
-    app.get("/alunos/filtroNome", (req, res) => {
+    app.get("/usuarios/filtroNome", (req, res) => {
       let filter = req.query && req.query.nome ? req.query.nome : null;
 
       if (filter === null) return [];
 
-      let sql = `SELECT * FROM alunos WHERE nome LIKE '%${filter}%'`;
+      let sql = `SELECT * FROM usuarios WHERE nome LIKE '%${filter}%'`;
       db.query(sql, (err, results) => {
         if (err) throw err;
         res.json(results);
       });
     });
 
-    app.get("/alunos/validar", (req, res) => {
+    app.get("/usuarios/validar", (req, res) => {
       let participantes = JSON.parse(req.query.participantes);
-      let sql = `SELECT * FROM alunos WHERE RA IN (${participantes
+      let sql = `SELECT * FROM usuarios WHERE RA IN (${participantes
         .map((p) => `'${p.RA}'`)
         .join(",")})`;
 
       db.query(sql, (err, results) => {
         if (err) throw err;
 
-        let invalidAlunos = [];
+        let invalidUsuarios = [];
 
         let valid = true;
         for (let p of participantes) {
-          let aluno = results.find((r) => r.RA == p.RA);
-          if (!aluno) {
+          let usuario = results.find((r) => r.RA == p.RA);
+          if (!usuario) {
             valid = false;
-            invalidAlunos.push(p);
-          } else if (aluno.nome !== p.nome) {
+            invalidUsuarios.push(p);
+          } else if (usuario.nome !== p.nome) {
             valid = false;
-            invalidAlunos.push(p);
+            invalidUsuarios.push(p);
           }
         }
 
-        res.json({ valid, invalidAlunos });
+        res.json({ valid, invalidUsuarios });
       });
     });
   }
 }
 
-module.exports = AlunosApplication;
+module.exports = UsuariosApplication;

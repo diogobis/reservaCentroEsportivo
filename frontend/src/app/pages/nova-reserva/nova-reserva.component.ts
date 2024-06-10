@@ -46,7 +46,7 @@ import { debounceTime, tap } from 'rxjs/operators';
 export class NovaReservaComponent implements OnInit {
   private _message$ = new Subject<string>();
   public invalidParticipantsMessage: any = '';
-  public invalidAlunos: any = null;
+  public invalidUsuarios: any = null;
 
   @ViewChild('selfClosingAlert', { static: false })
   selfClosingAlert: NgbAlert = new NgbAlert();
@@ -72,7 +72,7 @@ export class NovaReservaComponent implements OnInit {
     centroEsportivo: null,
     dataReserva: this.minDate,
     horarioID: null,
-    alunoResponsavel: null,
+    usuarioResponsavel: null,
   };
 
   public participantes: any[] = [
@@ -180,12 +180,12 @@ export class NovaReservaComponent implements OnInit {
     private router: Router
   ) {
     this.usuarioLogado = JSON.parse(localStorage.getItem('user') as string);
-    this.reservaInfo.alunoResponsavel = this.usuarioLogado.RA;
+    this.reservaInfo.usuarioResponsavel = this.usuarioLogado.RA;
 
     this._message$
       .pipe(
         takeUntilDestroyed(),
-        tap((message) => (this.invalidAlunos = message)),
+        tap((message) => (this.invalidUsuarios = message)),
         debounceTime(5000)
       )
       .subscribe(() => this.selfClosingAlert?.close());
@@ -356,7 +356,7 @@ export class NovaReservaComponent implements OnInit {
         }
         this.router.navigate(['home']);
       } else {
-        this._message$.next(result.invalidAlunos);
+        this._message$.next(result.invalidUsuarios);
       }
     });
   }
@@ -387,7 +387,7 @@ export class NovaReservaComponent implements OnInit {
       centroEsportivo: editingReserva.centroEsportivo,
       dataReserva: new Date(editingReserva.dataReserva).toString(),
       horarioID: editingReserva.horarioID,
-      alunoResponsavel: editingReserva.alunoResponsavel,
+      usuarioResponsavel: editingReserva.usuarioResponsavel,
     };
 
     this.participantes = editingReserva.participantes;

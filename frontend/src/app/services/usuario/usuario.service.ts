@@ -8,7 +8,7 @@ import { lastValueFrom } from 'rxjs';
 })
 export class UsuarioService extends BaseService {
   constructor(protected http: HttpClient) {
-    super(http, 'alunos');
+    super(http, 'usuarios');
   }
 
   public filtroPorNome(nome: string): any {

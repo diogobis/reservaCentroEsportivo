@@ -215,15 +215,15 @@
   </div>
 </div>
 
-@if (invalidAlunos !== null) {
+@if (invalidUsuarios !== null) {
 <div class="position-fixed top-0 end-0 m-3" style="z-index: 99999">
-  <ngb-alert #selfClosingAlert type="danger" (closed)="invalidAlunos = null">
+  <ngb-alert #selfClosingAlert type="danger" (closed)="invalidUsuarios = null">
     <!-- {{ invalidParticipantsMessage }} -->
 
     <div class="d-flex flex-column">
-      <span>O(s) aluno(s) a seguir estao com o RA incorreto: </span>
-      @for (aluno of invalidAlunos; track $index) {
-      <span>{{ aluno.nome }}</span>
+      <span>O(s) usuario(s) a seguir estao com o RA incorreto: </span>
+      @for (usuario of invalidUsuarios; track $index) {
+      <span>{{ usuario.nome }}</span>
       }
     </div>
   </ngb-alert>

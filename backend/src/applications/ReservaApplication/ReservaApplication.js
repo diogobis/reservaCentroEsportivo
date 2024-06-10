@@ -109,7 +109,7 @@ class ReservaApplication extends BaseApplication {
         let participantesQuery = `
         SELECT pr.reserva, a.* 
         FROM participantesreserva pr 
-        INNER JOIN alunos a ON a.RA = pr.aluno 
+        INNER JOIN usuarios a ON a.RA = pr.usuario 
         WHERE reserva IN (${reservas.map((r) => r.ID).join(",")})`;
 
         db.query(participantesQuery, (err, results) => {
@@ -190,7 +190,7 @@ class ReservaApplication extends BaseApplication {
         let insertId = editingID ? editingID : results.insertId;
 
         let adicionarParticipantes = () => {
-          let queryParticipantes = `INSERT INTO participantesreserva (aluno, reserva, created) VALUES ${participantes
+          let queryParticipantes = `INSERT INTO participantesreserva (usuario, reserva, created) VALUES ${participantes
             .map((p) => {
               return `('${p.RA}', ${insertId}, '${new Date()
                 .toISOString()

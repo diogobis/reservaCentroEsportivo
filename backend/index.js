@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2");
-const AlunosApplication = require("./src/applications/AlunosApplication/AlunosApplication.js");
+const UsuariosApplication = require("./src/applications/UsuariosApplication/UsuariosApplication.js");
 const ReservaApplication = require("./src/applications/ReservaApplication/ReservaApplication.js");
 const CentroEsportivoApplication = require("./src/applications/CentroEsportivoApplication/CentroEsportivoApplication.js");
 const HorariosApplication = require("./src/applications/HorariosApplication/HorariosApplication.js");
@@ -36,7 +36,7 @@ app.listen(PORT, () => {
 //TODO: figure out how to create multiple tables in a clean way
 function init() {
   console.log("Initializing applications");
-  let alunosApp = new AlunosApplication(app, db);
+  let usuariosApp = new UsuariosApplication(app, db);
   let reservaApp = new ReservaApplication(app, db);
   let centroEsportApp = new CentroEsportivoApplication(app, db);
   let horariosApp = new HorariosApplication(app, db);

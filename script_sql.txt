@@ -1,11 +1,13 @@
+drop database if exists reservacentroesportivo;
+
 CREATE DATABASE reservacentroesportivo;
 USE reservacentroesportivo;
 
 CREATE TABLE CentrosEsportivos (
-	ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     descricao VARCHAR(20) NOT NULL,
     created DATETIME NOT NULL,
-    minimoParticipantes INT NOT NULL,
+    minimoParticipantes INT NOT null,
     deleted DATETIME
 );
 
@@ -30,27 +32,27 @@ INSERT INTO horarios (tipo, inicio, fim) VALUES ("F", 16, 18);
 INSERT INTO horarios (tipo, inicio, fim) VALUES ("S", 21, 22);
 
 
-CREATE TABLE Alunos(
-	RA VARCHAR(9) PRIMARY KEY NOT NULL,
+CREATE TABLE Usuarios (
+    RA VARCHAR(9) PRIMARY KEY NOT NULL,
     usuario VARCHAR(50) NOT NULL,
     curso VARCHAR(50) NOT NULL,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    telefone VARCHAR(15) NOT NULL,
+    telefone VARCHAR(15) NOT null,
     created DATETIME NOT NULL,
     deleted DATETIME
 );
 
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
+INSERT INTO Usuarios (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
-	'A07251091',
+    'A07251091',
     "diogo.freitas",
     "Engenharia de Software",
     "Diogo Alves Bis de Freitas",
     "diogo.freitas@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
+INSERT INTO Usuarios (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
 	'A07251092',
     "caio.victor",
@@ -59,7 +61,7 @@ VALUES (
     "caio.arantes@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
+INSERT INTO Usuarios (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
 	'A07251093',
     "gabriel.caldas",
@@ -68,7 +70,7 @@ VALUES (
     "gabriel.caldas@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
+INSERT INTO Usuarios (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
 	'A07251094',
     "miguel.silva",
@@ -77,7 +79,7 @@ VALUES (
     "miguel.silva@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
+INSERT INTO Usuarios (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
 	'A07251095',
     "walter.maia",
@@ -86,7 +88,7 @@ VALUES (
     "walter.maia@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
+INSERT INTO Usuarios (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
 	'A07251096',
     "gustavo.orodrigues",
@@ -95,7 +97,7 @@ VALUES (
     "gustavo.orodrigues@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
+INSERT INTO Usuarios (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
 	'A07251097',
     "ivan.lana",
@@ -104,7 +106,7 @@ VALUES (
     "ivan.lana@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO Alunos (RA, usuario, curso, nome, email, telefone, created)
+INSERT INTO Usuarios (RA, usuario, curso, nome, email, telefone, created)
 VALUES (
 	'A07251098',
     "yara.lacerda",
@@ -113,16 +115,17 @@ VALUES (
     "yara.lacerda@a.unileste.edu.br", "(31) 99982-5752",
     NOW()
 );
-INSERT INTO reservacentroesportivo.alunos  (RA, usuario, curso, nome, email, telefone, created)
+INSERT INTO Usuarios (RA, usuario, curso, nome, email, telefone, created)
 VALUES(
 	'A07251099',
 	'igor.marques',
 	'Engenharia de Software',
 	'Igor Marques',
-	'igor.marques@a.unileste.edu.br',
+	'igor.marques@a.unileste.edu.br', 
+	"(31) 99982-5752",
 	NOW()
 );
-INSERT INTO reservacentroesportivo.alunos (RA, usuario, curso, nome, email, telefone, created)
+INSERT INTO Usuarios (RA, usuario, curso, nome, email, telefone, created)
 VALUES(
 	'A07251100',
 	'cayck.maia',
@@ -140,17 +143,17 @@ CREATE TABLE Reserva (
     FOREIGN KEY (horarioID) REFERENCES horarios (ID) ON DELETE CASCADE,
     centroEsportivo INT NOT NULL,
     FOREIGN KEY (centroEsportivo) REFERENCES centrosesportivos (ID) ON DELETE CASCADE,
-    alunoResponsavel VARCHAR(9) NOT NULL,
-    FOREIGN KEY (alunoResponsavel) REFERENCES Alunos (RA),
+    usuarioResponsavel VARCHAR(9) NOT NULL,
+    FOREIGN KEY (usuarioResponsavel) REFERENCES Usuarios (RA),
     created DATETIME NOT NULL,
     deleted DATETIME
 );
 
 CREATE TABLE ParticipantesReserva (
-	aluno VARCHAR(9) NOT NULL,
+	usuario VARCHAR(9) NOT NULL,
     reserva INT NOT NULL,
-    PRIMARY KEY (aluno, reserva),
-	FOREIGN KEY (aluno) REFERENCES Alunos (RA),
+    PRIMARY KEY (usuario, reserva),
+	FOREIGN KEY (usuario) REFERENCES Usuarios (RA),
 	FOREIGN KEY (reserva) REFERENCES Reserva (ID) ON DELETE CASCADE,
     created DATETIME NOT NULL,
     deleted DATETIME

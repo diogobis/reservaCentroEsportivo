@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit {
     start.setHours(0, 0, 0, 0);
 
     let result: any = await this.reservaService.getComParticipantes({
-      alunoResponsavel: this.usuarioLogado.RA,
+      usuarioResponsavel: this.usuarioLogado.RA,
       start: start.toISOString(),
     });
 
